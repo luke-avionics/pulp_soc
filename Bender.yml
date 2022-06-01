@@ -48,7 +48,7 @@ dependencies:
   hwpe-mac-engine:        { git: "https://github.com/pulp-platform/hwpe-mac-engine.git", version: 1.3.3 }
   riscv-dbg:              { git: "https://github.com/pulp-platform/riscv-dbg.git", version: 0.5.0 }
   register_interface:     { git: "https://github.com/pulp-platform/register_interface.git", version: 0.3.1 }
-
+  wide_alu:               { git: "https://github.com/luke-avionics/wide_alu.git", version: master }
 sources:
   # pulp_soc
   - include_dirs:

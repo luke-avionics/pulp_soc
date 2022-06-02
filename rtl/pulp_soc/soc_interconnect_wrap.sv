@@ -93,12 +93,13 @@ module soc_interconnect_wrap
     ////////////////////////////////////////
     // Address Rules for the interconnect //
     ////////////////////////////////////////
-    localparam NR_RULES_L2_DEMUX = 3;
+    localparam NR_RULES_L2_DEMUX = 4;
     //Everything that is not routed to port 1 or 2 ends up in port 0 by default
     localparam addr_map_rule_t [NR_RULES_L2_DEMUX-1:0] L2_DEMUX_RULES = '{
        '{ idx: 1 , start_addr: `SOC_MEM_MAP_PRIVATE_BANK0_START_ADDR , end_addr: `SOC_MEM_MAP_PRIVATE_BANK1_END_ADDR} , //Both , bank0 and bank1 are in the  same address block
        '{ idx: 1 , start_addr: `SOC_MEM_MAP_BOOT_ROM_START_ADDR      , end_addr: `SOC_MEM_MAP_BOOT_ROM_END_ADDR}      ,
-       '{ idx: 2 , start_addr: `SOC_MEM_MAP_TCDM_START_ADDR          , end_addr: `SOC_MEM_MAP_TCDM_END_ADDR }};
+       '{ idx: 2 , start_addr: `SOC_MEM_MAP_TCDM_START_ADDR          , end_addr: `SOC_MEM_MAP_TCDM_END_ADDR },
+       '{ idx: 0, start_addr: `SOC_MEM_MAP_WIDE_ALU_START_ADDR,      end_addr: `SOC_MEM_MAP_WIDE_ALU_END_ADDR}};
 
     localparam NR_RULES_INTERLEAVED_REGION = 1;
     localparam addr_map_rule_t [NR_RULES_INTERLEAVED_REGION-1:0] INTERLEAVED_ADDR_SPACE = '{
@@ -110,7 +111,7 @@ module soc_interconnect_wrap
         '{ idx: 1 , start_addr: `SOC_MEM_MAP_PRIVATE_BANK1_START_ADDR , end_addr: `SOC_MEM_MAP_PRIVATE_BANK1_END_ADDR} ,
         '{ idx: 2 , start_addr: `SOC_MEM_MAP_BOOT_ROM_START_ADDR      , end_addr: `SOC_MEM_MAP_BOOT_ROM_END_ADDR}};
 
-    localparam NR_RULES_AXI_CROSSBAR = 2;
+    localparam NR_RULES_AXI_CROSSBAR = 3;
     localparam addr_map_rule_t [NR_RULES_AXI_CROSSBAR-1:0] AXI_CROSSBAR_RULES = '{
        '{ idx: 0, start_addr: `SOC_MEM_MAP_AXI_PLUG_START_ADDR,    end_addr: `SOC_MEM_MAP_AXI_PLUG_END_ADDR},
        '{ idx: 1, start_addr: `SOC_MEM_MAP_PERIPHERALS_START_ADDR, end_addr: `SOC_MEM_MAP_PERIPHERALS_END_ADDR},
@@ -180,6 +181,7 @@ module soc_interconnect_wrap
               ) axi_slaves[3]();
     `AXI_ASSIGN(axi_slave_plug, axi_slaves[0])
     `AXI_ASSIGN(axi_to_axi_lite_bridge, axi_slaves[1])
+    `AXI_ASSIGN(wide_alu_slave, axi_slaves[2])
 
     //Interconnect instantiation
     soc_interconnect #(

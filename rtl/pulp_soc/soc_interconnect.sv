@@ -274,7 +274,7 @@ module soc_interconnect
                                                     MaxSlvTrans: 4,       //Allow up to 4 in-flight transactions
                                                     //per slave port
                                                     FallThrough: 1,       //Use the reccomended default config
-                                                    LatencyMode: axi_pkg::CUT_MST_AX | axi_pkg::MuxW,
+                                                    LatencyMode: axi_pkg::CUT_MST_PORTS,
                                                     AxiIdWidthSlvPorts: AXI_MASTER_ID_WIDTH,
                                                     AxiIdUsedSlvPorts: AXI_MASTER_ID_WIDTH,
                                                     AxiAddrWidth: BUS_ADDR_WIDTH,

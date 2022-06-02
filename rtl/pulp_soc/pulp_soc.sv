@@ -380,8 +380,8 @@ module pulp_soc import dm::*; #(
     AXI_BUS #(
         .AXI_ADDR_WIDTH ( AXI_ADDR_WIDTH    ),
         .AXI_DATA_WIDTH ( AXI_DATA_OUT_WIDTH),
-        .AXI_ID_WIDTH   ( AXI_ID_OUT_WIDTH  ),
-        .AXI_USER_WIDTH ( AXI_USER_WIDTH    )
+        .AXI_ID_WIDTH   ( 6  ),
+        .AXI_USER_WIDTH ( 6    )
     ) s_wide_alu_bus ();
 
     //assign s_data_out_bus.aw_atop = 6'b0;
@@ -862,7 +862,8 @@ module pulp_soc import dm::*; #(
         .apb_peripheral_bus    ( s_apb_periph_bus    ),
         .l2_interleaved_slaves ( s_mem_l2_bus        ),
         .l2_private_slaves     ( s_mem_l2_pri_bus    ),
-        .boot_rom_slave        ( s_mem_rom_bus       )
+        .boot_rom_slave        ( s_mem_rom_bus       ),
+	.wide_alu_slave        ( s_wide_alu_bus)
         );
 
     wide_alu_top #(

@@ -48,7 +48,7 @@ dependencies:
   riscv-dbg:              { git: "https://github.com/pulp-platform/riscv-dbg.git", version: 0.5.0 }
   register_interface:     { git: "https://github.com/pulp-platform/register_interface.git", version: 0.3.1 }
   hwpe-stream: { git: "https://github.com/pulp-platform/hwpe-stream.git", version: 1.6.3 }
-  hwpe-ctrl:   { git: "https://github.com/pulp-platform/hwpe-ctrl.git", version: 1.6.1 }
+  hwpe-ctrl:   { git: "https://github.com/luke-avionics/hwpe-ctrl.git", rev: "luke_dev" }
 
 sources:
   # pulp_soc

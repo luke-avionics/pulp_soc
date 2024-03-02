@@ -74,9 +74,10 @@ module fc_hwpe
         .per_master_r_rdata_i ( periph_r_rdata          )
     );
 
-    mac_top_wrap #(
-        .ID  ( ID_WIDTH )
-    ) i_mac_top_wrap (
+    dummy_hls_ip_top_wrap #(
+        .ID  ( ID_WIDTH ),
+        .MP  ( N_MASTER_PORT )
+    ) i_dummy_hls_ip_top_wrap (
         .clk_i            ( clk_i          ),
         .rst_ni           ( rst_ni         ),
         .test_mode_i      ( test_mode_i    ),
@@ -105,7 +106,7 @@ module fc_hwpe
 
     genvar i;
     generate
-        for (i=0;i<4;i++) begin : hwacc_binding
+        for (i=0;i<N_MASTER_PORT;i++) begin : hwacc_binding
             assign hwacc_xbar_master[i].req   = tcdm_req   [i];
             assign hwacc_xbar_master[i].add   = tcdm_add   [i];
             assign hwacc_xbar_master[i].wen   = tcdm_wen   [i];

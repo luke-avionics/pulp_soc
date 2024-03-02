@@ -31,7 +31,8 @@ module pulp_soc import dm::*; #(
     parameter CDC_FIFOS_LOG_DEPTH = 3,
     parameter EVNT_WIDTH          = 8,
     parameter NB_CORES            = 8,
-    parameter NB_HWPE_PORTS       = 4,
+    //Anchor: total number of master ports
+    parameter NB_HWPE_PORTS       = 2,
     parameter NGPIO               = 43,
     parameter NPAD                = 64, //Must not be changed as other parts
                                        //downstreams are not parametrci
@@ -376,13 +377,6 @@ module pulp_soc import dm::*; #(
         .AXI_ID_WIDTH   ( AXI_ID_OUT_WIDTH  ),
         .AXI_USER_WIDTH ( AXI_USER_WIDTH    )
     ) s_data_out_bus ();
-
-    AXI_BUS #(
-        .AXI_ADDR_WIDTH ( AXI_ADDR_WIDTH    ),
-        .AXI_DATA_WIDTH ( AXI_DATA_OUT_WIDTH),
-        .AXI_ID_WIDTH   ( 6  ),
-        .AXI_USER_WIDTH ( 6    )
-    ) s_wide_alu_bus ();
 
     //assign s_data_out_bus.aw_atop = 6'b0;
 
@@ -774,7 +768,8 @@ module pulp_soc import dm::*; #(
         .USE_ZFINX  ( USE_ZFINX          ),
         .CORE_ID    ( FC_CORE_CORE_ID    ),
         .CLUSTER_ID ( FC_CORE_CLUSTER_ID ),
-        .USE_HWPE   ( USE_HWPE           )
+        .USE_HWPE   ( USE_HWPE           ),
+        .NB_HWPE_PORTS ( NB_HWPE_PORTS   )
     ) fc_subsystem_i (
         .clk_i               ( s_soc_clk           ),
         .rst_ni              ( s_soc_rstn          ),
@@ -862,20 +857,9 @@ module pulp_soc import dm::*; #(
         .apb_peripheral_bus    ( s_apb_periph_bus    ),
         .l2_interleaved_slaves ( s_mem_l2_bus        ),
         .l2_private_slaves     ( s_mem_l2_pri_bus    ),
-        .boot_rom_slave        ( s_mem_rom_bus       ),
-	.wide_alu_slave        ( s_wide_alu_bus)
+        .boot_rom_slave        ( s_mem_rom_bus       )
         );
 
-    wide_alu_top #(
-      .AXI_ADDR_WIDTH(AXI_ADDR_WIDTH),
-      .AXI_ID_WIDTH(AXI_ID_OUT_WIDTH),
-      .AXI_USER_WIDTH(AXI_USER_WIDTH)
-    ) i_wide_alu(
-      .clk_i(s_soc_clk),
-      .rst_ni(s_soc_rstn),
-      .test_mode_i(dft_test_mode_i),
-      .axi_slave(s_wide_alu_bus)
-    );
     /* Debug Subsystem */
 
     dmi_jtag #(

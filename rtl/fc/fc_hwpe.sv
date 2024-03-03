@@ -7,7 +7,7 @@
 // this License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
-
+import hwpe_ctrl_package::*;
 
 module fc_hwpe
 #(
@@ -23,7 +23,7 @@ module fc_hwpe
     XBAR_TCDM_BUS.Master hwacc_xbar_master[N_MASTER_PORT-1:0],
     APB_BUS.Slave        hwacc_cfg_slave,
 
-    output logic [1:0]   evt_o,
+    output logic [REGFILE_N_EVT-1:0]   evt_o,
     output logic         busy_o
 );
 
@@ -102,7 +102,7 @@ module fc_hwpe
         .evt_o            ( s_evt          )
     );
     assign busy_o = 1'b1;
-    assign evt_o = s_evt[0];
+    assign evt_o = s_evt[0]; //TODO: only the 1st event is considered, thus N_CORES in dummy_hls_ip_top_wrap is not doing anything
 
     genvar i;
     generate

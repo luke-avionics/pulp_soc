@@ -46,6 +46,7 @@ module dummy_hls_ip_ctrl_wrap
   logic [11:0][31:0] uloop_registers_read;
 
   ctrl_fsm_t fsm_ctrl;
+  regfile_in_t regfile_in_from_hwme;
 
   /* Peripheral slave & register file */
   hwpe_ctrl_slave #(
@@ -61,7 +62,9 @@ module dummy_hls_ip_ctrl_wrap
     .cfg      ( periph      ),
     .ctrl_i   ( slave_ctrl  ),
     .flags_o  ( slave_flags ),
-    .reg_file ( reg_file    )
+    .reg_file ( reg_file    ),
+    .static_context_mode ( 1 ),
+    .regfile_in_from_hwme(regfile_in_from_hwme)
   );
   assign evt_o = slave_flags.evt;
 
@@ -132,7 +135,8 @@ module dummy_hls_ip_ctrl_wrap
     .ctrl_slave_o     ( slave_ctrl         ),
     .flags_slave_i    ( slave_flags        ),
     .reg_file_i       ( reg_file           ),
-    .ctrl_i           ( fsm_ctrl           )
+    .ctrl_i           ( fsm_ctrl           ),
+    .regfile_in_from_hwme(regfile_in_from_hwme)
   );
 
   //Anchor: Channel length settings fsm_ctrl assignment
